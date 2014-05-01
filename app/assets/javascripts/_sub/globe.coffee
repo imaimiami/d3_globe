@@ -1,7 +1,7 @@
 $ ->
   width = $(window).width() 
   height = $(window).height()
-  projection = d3.geo.orthographic().scale($(window).width()*0.7).clipAngle(90)
+  projection = d3.geo.orthographic().translate([width/2, height/2]).scale($(window).width()*0.7).clipAngle(90)
 
   canvas = d3.select("body").append("canvas").attr("width", width).attr("height", height)
   c = canvas.node().getContext("2d")
@@ -23,13 +23,12 @@ $ ->
     i = -1
     n = countries.length
 
-
-    #countries = countries.filter (d) ->
-    #  return names.some (n) ->
-    #    if d.id == n.id
-    #      return d.name = n.name
-    #.sort (a, b) ->
-    #  return a.name.localeCompare(b.name)
+    countries = countries.filter (d) ->
+      return names.some (n) ->
+        if +d.id is +n.id
+          return d.name = n.name
+    .sort (a, b) ->
+     return a.name.localeCompare(b.name)
 
     transition = ->
       d3.transition()

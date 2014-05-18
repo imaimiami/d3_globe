@@ -1,0 +1,219 @@
+<html>
+<head>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="http://d3js.org/queue.v1.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<style>
+  body { margin:0; padding:0; }
+</style>
+</head>
+<body>
+
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="1024px"
+   height="768px" viewBox="0 0 1024 768" style="enable-background:new 0 0 1024 768;" xml:space="preserve">
+<style type="text/css">
+<![CDATA[
+]]>
+</style>
+<g id="base">
+  <rect x="-3.201" y="-0.201" style="fill:#231F20;stroke:#231815;" width="1031.034" height="772.412"/>
+  <g>
+    <g>
+      <path style="fill:#424242;" d="M302.419,517.729c0,5.5-4.5,10-10,10H30.811c-5.5,0-10-4.5-10-10V291.751c0-5.5,4.5-10,10-10
+        h261.609c5.5,0,10,4.5,10,10V517.729z"/>
+    </g>
+    <rect x="20.811" y="326.579" style="fill:#393939;" width="281.609" height="158.621"/>
+  </g>
+  <g>
+    <path style="fill:#424242;" d="M1002.547,689.545c0,5.5-4.5,10-10,10H326.213c-5.5,0-10-4.5-10-10V293.05c0-5.5,4.5-10,10-10
+      h666.334c5.5,0,10,4.5,10,10V689.545z"/>
+  </g>
+  <rect id="mapContainer" x="316.213" y="331.58" style="fill:#393939;" width="686.334" height="331.034"/>
+  <g>
+    <g>
+      <path style="fill:#424242;" d="M302.419,689.293c0,5.5-4.5,10-10,10H30.811c-5.5,0-10-4.5-10-10V552.224c0-5.5,4.5-10,10-10
+        h261.609c5.5,0,10,4.5,10,10V689.293z"/>
+    </g>
+    <rect x="20.811" y="581.304" style="fill:#393939;" width="281.609" height="79.311"/>
+  </g>
+</g>
+<g id="scoreBoard">
+  <g id="board_1_">
+    <g>
+      <path style="fill:#424242;" d="M302.397,259.913c0,5.5-4.5,10-10,10H30.788c-5.5,0-10-4.5-10-10V33.936c0-5.5,4.5-10,10-10
+        h261.609c5.5,0,10,4.5,10,10V259.913z"/>
+    </g>
+    <rect x="20.788" y="68.764" style="fill:#393939;" width="281.609" height="158.621"/>
+  </g>
+  <text id="score" transform="matrix(1 0 0 1 38.9258 137.936)" style="fill:#FFFFFF; font-family:'HelveticaNeue'; font-size:72;">0</text>
+
+    <text id="percent" transform="matrix(1 0 0 1 41.4316 194.0967)" style="fill:#F1C40F; font-family:'HelveticaNeue'; font-size:48;">0%</text>
+  <path style="fill:none;" d="M1143.494,189.167c-13.738,0-24.885,11.083-24.995,24.796l49.985-0.175
+    C1168.281,200.156,1157.174,189.167,1143.494,189.167z"/>
+  <path style="fill:none;" d="M1118.494,214.167c0,13.807,11.193,25,25,25s25-11.193,25-25c0-0.127-0.008-0.252-0.01-0.379
+    l-49.985,0.175C1118.499,214.031,1118.494,214.098,1118.494,214.167z"/>
+  <path style="fill:#2D2B2C;" d="M157.868,409.149c32.394,0,58.696,26.022,59.177,58.303l59.196-0.208
+    c-0.597-64.88-53.354-117.295-118.373-117.295c-65.301,0-118.243,52.859-118.394,118.123l59.205-0.208
+    C98.94,435.392,125.335,409.149,157.868,409.149z"/>
+  <path style="fill:#F1C40F;" d="M1168.484,213.788c0.002,0.126,0.01,0.252,0.01,0.379c0,13.807-11.193,25-25,25s-25-11.193-25-25
+    c0-0.068,0.005-0.136,0.005-0.204l-25.002,0.087c0,0.039-0.003,0.078-0.003,0.117c0,27.614,22.385,50,50,50
+    c27.613,0,50-22.386,50-50c0-0.156-0.011-0.31-0.012-0.466L1168.484,213.788z"/>
+</g>
+<g id="lineBoard">
+  <g id="board">
+    <g>
+      <path style="fill:#424242;" d="M1000.247,258.212c0,5.5-4.5,10-10,10H329.662c-5.5,0-10-4.5-10-10V32.235c0-5.5,4.5-10,10-10
+        h660.585c5.5,0,10,4.5,10,10V258.212z"/>
+    </g>
+    <rect x="319.662" y="67.062" style="fill:#393939;" width="680.585" height="158.621"/>
+    <line id="bar" style="fill:none;stroke:#FFCC00;stroke-width:10;" x1="156.718" y1="368.764" x2="156.718" y2="467.613"/>
+  </g>
+  <path id="lineChart" style="fill:#F1C40F;stroke:#FFCC00;stroke-width:3;" x1="384.154" y1="184.856" x2="965.763" y2="117.04"/>
+</g>
+</svg>
+
+
+<script>
+<!--
+setInterval(function(){
+  var number = Math.floor(Math.random()*100);
+
+  d3.select("#score").text(number);
+
+
+
+  d3.select("#percent").text((number/2)+"%");
+
+  dataset.push(number);
+
+  line
+    .transition()
+    .attr("d", d3line(dataset));
+    /*.attr("transform", null)
+    .transition()
+      .ease("linear")
+      .attr("transform", "translate(" + xscale(-1) + ")");*/
+
+  dataset.shift();
+
+  bar
+    /*.attr("transform", "translate(0, 0)")*/
+    /*.transition()*/
+    /*.ease("linear")*/
+    .attr("transform", "rotate(" + rscale(number) + ", 156.718, 467.613)");
+
+}, 1000)
+
+
+var dataset =[ 2,0,0,0,0,0,0,0,1,1,3,3,3,3,3,3,3,3,3,3 ];
+
+/*var ymin = d3.min(dataset);
+var ymax = d3.max(dataset);
+if ((ymax - ymin) < 5) {
+  ymax += 5 - (ymax - ymin);
+}*/
+var ymin = 0;
+var ymax = 100;
+
+var w = +d3.select("#board rect").attr("width");
+var h = +d3.select("#board rect").attr("height");
+var x = +d3.select("#board rect").attr("x");
+var y = +d3.select("#board rect").attr("y");
+var margin = 20;
+
+var xscale = d3.scale.linear().domain([0,dataset.length+1]).range([x+margin,w-margin+x]);
+
+var yscale = d3.scale.linear().domain([ymin, ymax]).range([y+h-margin,y+margin]);
+
+var d3line = d3.svg.line()
+  .x(function(d,i){return xscale(i);})
+  .y(function(d){return yscale(d);})
+  .interpolate("linear");
+
+var line = d3.select("#lineChart")
+  .attr("d", d3line(dataset))
+  .style("fill", "none");
+
+console.log(line);
+d3.select("#line").append(line);
+
+var rscale = d3.scale.linear().domain([1, 100]).range([-90, 90]);
+var bar = d3.select("#bar");
+
+d3.select("#line").attr("d", d3line(dataset));
+
+
+
+var mapContainer = d3.select("#mapContainer");
+var width = mapContainer.attr("width"),
+    height = mapContainer.attr("height");
+
+var projection = d3.geo.orthographic()
+    .scale(438)
+    .translate([300, 200])
+    .clipAngle(90);
+
+
+
+var canvas = d3.select("body").append("canvas")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("style", "position:absolute; left: "+mapContainer.attr("x")+"px; top: " + mapContainer.attr("y") + "px;");
+
+
+var c = canvas.node().getContext("2d");
+
+var path = d3.geo.path()
+    .projection(projection)
+    .context(c);
+
+var title = d3.select("h1");
+
+queue()
+    .defer(d3.json, "/d/world-110m.json")
+    .defer(d3.tsv, "/d/world-country-names.tsv")
+    .await(ready);
+
+function ready(error, world, names) {
+  var globe = {type: "Sphere"},
+      land = topojson.feature(world, world.objects.land),
+      countries = topojson.feature(world, world.objects.countries).features,
+      borders = topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }),
+      i = -1,
+      n = countries.length;
+
+  countries = countries.filter(function(d) {
+    return names.some(function(n) {
+      if (d.id == n.id) return d.name = n.name;
+    });
+  }).sort(function(a, b) {
+    return a.name.localeCompare(b.name);
+  });
+
+  (function transition() {
+    d3.transition()
+        .duration(1250)
+        .each("start", function() {
+          title.text(countries[i = (i + 1) % n].name);
+        })
+        .tween("rotate", function() {
+          var p = d3.geo.centroid(countries[i]),
+              r = d3.interpolate(projection.rotate(), [-p[0], -p[1]]);
+          return function(t) {
+            projection.rotate(r(t));
+            c.clearRect(0, 0, width, height);
+            c.fillStyle = "#bbb", c.beginPath(), path(land), c.fill();
+            c.fillStyle = "#f00", c.beginPath(), path(countries[i]), c.fill();
+            c.strokeStyle = "#fff", c.lineWidth = .5, c.beginPath(), path(borders), c.stroke();
+            c.strokeStyle = "#000", c.lineWidth = 2, c.beginPath(), path(globe), c.stroke();
+          };
+        })
+      .transition()
+        .each("end", transition);
+  })();
+}
+
+//-->
+</script>
+</body>
+</html>
